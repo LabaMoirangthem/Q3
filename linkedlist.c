@@ -204,7 +204,117 @@ struct node *afterAnode(struct node *start, int data, int key)
 }
 
 
-
+// Function to delete the node at the beginning of the list
+struct node *del_beg(struct node *start, int data) 
+{
+    if (start == NULL) {
+        printf("List is empty, deletion not possible.\n");
+        return start;
+    }
+    struct node *temp = start;
+    start = start->link;
+    free(temp);
+    printf("Node deleted from the beginning successfully.\n");
+    return start;
+}
+ // Function to delete the node at the end of the list
+struct node *del_end(struct node *start, int data) 
+{
+    if (start == NULL) {
+        printf("List is empty, deletion not possible.\n");
+        return start;
+    }
+    struct node *ptr = start;
+    struct node *prev = NULL;
+    while (ptr->link != NULL) {
+        prev = ptr;
+        ptr = ptr->link;
+    }
+    if (prev == NULL) {
+        free(ptr);
+        start = NULL;
+    } else {
+        prev->link = NULL;
+        free(ptr);
+    }
+    printf("Node deleted from the end successfully.\n");
+    return start;
+}
+// Function to delete the node before a specified node with 'item'
+struct node *DelbeforeAnode(struct node *start, int data, int item) 
+{
+    if (start == NULL || start->link == NULL) {
+        printf("List is empty or contains only one node, deletion not possible.\n");
+        return start;
+    }
+    struct node *ptr = start;
+    struct node *prev = NULL;
+    while (ptr->link != NULL && ptr->link->info != item) {
+        prev = ptr;
+        ptr = ptr->link;
+    }
+    if (ptr->link == NULL || ptr == start) {
+        printf("Node with given item not found or it's the first node, deletion not possible.\n");
+        return start;
+    }
+    struct node *temp = prev->link;
+    prev->link = ptr->link;
+    free(temp);
+    printf("Node before %d deleted successfully.\n", item);
+    return start;
+}
+// Function to delete the node after a specified node with 'item'
+struct node *DelafterAnode(struct node *start, int data, int item) 
+{
+    if (start == NULL) {
+        printf("List is empty, deletion not possible.\n");
+        return start;
+    }
+    struct node *ptr = start;
+    while (ptr != NULL && ptr->info != item) {
+        ptr = ptr->link;
+    }
+    if (ptr == NULL || ptr->link == NULL) {
+        printf("Node with given item not found or it's the last node, deletion not possible.\n");
+        return start;
+    }
+    struct node *temp = ptr->link;
+    ptr->link = temp->link;
+    free(temp);
+    printf("Node after %d deleted successfully.\n", item);
+    return start;
+}
+// Function to delete a node at a specified position in the list
+struct node *DelatAposition(struct node *start, int data, int position) 
+{
+    if (start == NULL) {
+        printf("List is empty, deletion not possible.\n");
+        return start;
+    }
+    if (position == 1) {
+        struct node *temp = start;
+        start = start->link;
+        free(temp);
+        printf("Node at position %d deleted successfully.\n", position);
+        return start;
+    }
+    struct node *ptr = start;
+    struct node *prev = NULL;
+    int count = 1;
+    while (ptr != NULL && count != position) {
+        prev = ptr;
+        ptr = ptr->link;
+        count++;
+    }
+    if (ptr == NULL) {
+        printf("Position out of range, deletion not possible.\n");
+        return start;
+    }
+    prev->link = ptr->link;
+    free(ptr);
+    printf("Node at position %d deleted successfully.\n", position);
+    return start;
+}
 
 int main() 
 {
