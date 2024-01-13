@@ -68,6 +68,144 @@ void display(struct node *start)
     }
     printf("\n");
 }
+//function to add a node at the begining of the list
+struct node *add_beg(struct node *start, int data) 
+{
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return start;
+    }
+    newNode->info = data;
+    newNode->link = start;
+    start = newNode;
+    printf("Node inserted at the beginning successfully.\n");
+    return start;
+}
+//function to add a node at the end of the list
+struct node *add_end(struct node *start, int data) 
+{
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return start;
+    }
+    newNode->info = data;
+    newNode->link = NULL;
+    if (start == NULL) {
+        start = newNode; 
+    } else {
+        struct node *temp = start;
+        while (temp->link != NULL) {
+            temp = temp->link; 
+        }
+        temp->link = newNode; 
+    }
+    printf("Node inserted at the end successfully.\n");
+    return start; 
+}
+//function to add at a given position 
+struct node *atAposition(struct node *start, int data, int position) 
+{
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return start;
+    }
+    newNode->info = data;
+    newNode->link = NULL;
+    if (position == 1) {
+        newNode->link = start;
+        start = newNode;
+    } 
+	else 
+	{
+        struct node *temp = start;
+        int count = 1;
+        while (count < position - 1 && temp != NULL) {
+            temp = temp->link;
+            count++;
+        }
+        if (temp == NULL) {
+            printf("Position is out of range.\n");
+            free(newNode);
+            return start;
+        }
+        newNode->link = temp->link;
+        temp->link = newNode;
+    }
+    printf("Node inserted at position %d successfully.\n", position);
+    return start;
+}
+//function to add a node before a given node
+struct node *beforeAnode(struct node *start, int data, int key) 
+{
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return start;
+    }
+    newNode->info = data;
+    newNode->link = NULL;
+    if (start == NULL) {
+        printf("List is empty.\n");
+        free(newNode);
+        return start;
+    }
+    if (start->info == key) {
+        newNode->link = start;
+        start = newNode;
+        printf("Node inserted before the first node successfully.\n");
+        return start;
+    }
+    struct node *temp = start;
+    while (temp->link != NULL && temp->link->info != key) {
+        temp = temp->link;
+    }
+    if (temp->link == NULL) {
+        printf("Node with key %d not found.\n", key);
+        free(newNode);
+        return start;
+    }
+    newNode->link = temp->link;
+    temp->link = newNode;
+    printf("Node inserted before %d successfully.\n", key);
+    return start;
+}
+//function to add node after a given node
+struct node *afterAnode(struct node *start, int data, int key) 
+{
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        return start;
+    }
+    newNode->info = data;
+    newNode->link = NULL;
+    if (start == NULL) {
+        printf("List is empty.\n");
+        free(newNode);
+        return start;
+    }
+    struct node *temp = start;
+    while (temp != NULL && temp->info != key) 
+	{
+        temp = temp->link;
+    }
+    if (temp == NULL) {
+        printf("Node with key %d not found.\n", key);
+        free(newNode);
+        return start;
+    }
+    newNode->link = temp->link;
+    temp->link = newNode;
+    printf("Node inserted after %d successfully.\n", key);
+    return start;
+}
+
+
+
+
 int main() 
 {
     int choice, choice1, choice2, data,item,position;
